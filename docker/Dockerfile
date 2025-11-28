@@ -2,13 +2,15 @@ ARG OS_VERSION=10
 
 FROM almalinux:${OS_VERSION}-minimal AS install-epicsmng
 
-ARG USERNAME=epics
-ARG USER_UID=1001
-ARG USER_GID=${USER_UID}
+ARG USERNAME=epics \
+    USER_UID=1001 \
+    USER_GID=${USER_UID}
 
 ENV HOME=/home/${USERNAME} \
     PATH=${PATH}:/home/${USERNAME}/.local/bin \
-    USERNAME=${USERNAME}
+    USERNAME=${USERNAME} \
+    USER_UID=${USER_UID} \
+    USER_GID=${USER_GID}
 
 # Create a user with the given name, UID and GID 
 # Add the user to the sudoers, to allow to execute commands 
