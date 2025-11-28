@@ -3,7 +3,7 @@ ARG OS_VERSION=10
 FROM almalinux:${OS_VERSION}-minimal AS install-epicsmng
 
 ARG USERNAME=epics
-ARG USER_UID=1000
+ARG USER_UID=1001
 ARG USER_GID=${USER_UID}
 
 ENV HOME=/home/${USERNAME} \
@@ -30,10 +30,11 @@ COPY ./epicsmng ./install.sh /epicsmng/
 RUN sh /epicsmng/install.sh \
     && rm -rf /epicsmng \
     && install -D <(echo "base_url=\"https://github.com/epics-base/epics-base\"") ${HOME}/.config/epicsmng/settings/user.settings \
-    && microdnf -y install git make perl readline-devel rpcgen libtirpc-devel
+    && microdnf -y install git make perl readline-devel rpcgen libtirpc-devel \
+    && microdnf clean all
 
-WORKDIR ${HOME}
+EXPOSE 5064/tcp
+EXPOSE 5064/udp
+EXPOSE 5065/udp
 
-EXPOSE 5064
-
-USER epics
+USER ${USERNAME}
