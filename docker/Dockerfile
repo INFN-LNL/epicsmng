@@ -2,8 +2,8 @@ ARG OS_VERSION=10
 
 FROM almalinux:${OS_VERSION}-minimal AS install-epicsmng
 
-ENV USERNAME=root
-ENV HOME=/${USERNAME}
+ARG HOME=/root
+ENV HOME=${HOME}
 ENV PATH=${PATH}:${HOME}/.local/bin
 
 # Copy epicsmng code from repository
