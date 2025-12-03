@@ -15,7 +15,17 @@ COPY ./epicsmng ./install.sh /epicsmng/
 RUN sh /epicsmng/install.sh \
     && rm -rf /epicsmng \
     && install -D <(echo "base_url=\"https://github.com/epics-base/epics-base\"") ${HOME}/.config/epicsmng/settings/user.settings \
-    && microdnf -y install git make perl readline-devel rpcgen libtirpc-devel \
+    && microdnf -y install \
+        git \
+        make \
+        gcc \
+        g++ \
+        perl-FindBin \
+        perl-File-Copy \
+        perl-ExtUtils-Install \
+        readline-devel \
+        rpcgen \
+        libtirpc-devel \
     && microdnf clean all \
     && rm -rf /var/cache/dnf
 
