@@ -14,8 +14,9 @@ COPY ./epicsmng ./install.sh /epicsmng/
 # Install required packets to build epics base and asyn
 RUN sh /epicsmng/install.sh \
     && rm -rf /epicsmng \
-    && install -D <(echo "base_url=\"https://github.com/epics-base/epics-base\"") ${HOME}/.config/epicsmng/settings/user.settings \
-    && microdnf -y install \
+    && install -D <(echo "base_url=\"https://github.com/epics-base/epics-base\"") \
+        ${HOME}/.config/epicsmng/settings/user.settings \
+    && microdnf --enablerepo=crb -y install \
         git \
         make \
         gcc \
