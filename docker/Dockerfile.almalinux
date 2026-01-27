@@ -10,13 +10,9 @@ ENV PATH=${PATH}:${HOME}/.local/bin
 COPY ./utils /epicsmng/utils
 COPY ./epicsmng ./install.sh /epicsmng/
 
-# Install, clean source files and set the github mirror of the base to be used (faster)
 # Install required packets to build epics base and asyn
-RUN sh /epicsmng/install.sh \
-    && rm -rf /epicsmng \
-    && install -D <(echo "base_url=\"https://github.com/epics-base/epics-base\"") \
-        ${HOME}/.config/epicsmng/settings/user.settings \
-    && microdnf --enablerepo=crb -y install \
+# Install, clean source files and set the github mirror of the base to be used (faster)
+RUN microdnf --enablerepo=crb -y install \
         git \
         make \
         gcc \
@@ -28,7 +24,11 @@ RUN sh /epicsmng/install.sh \
         rpcgen \
         libtirpc-devel \
     && microdnf clean all \
-    && rm -rf /var/cache/dnf
+    && rm -rf /var/cache/dnf \
+    && bash /epicsmng/install.sh \
+    && rm -rf /epicsmng \
+    && install -D <(echo "base_url=\"https://github.com/epics-base/epics-base\"") \
+        ${HOME}/.config/epicsmng/settings/user.settings
 
 EXPOSE 5064/tcp
 EXPOSE 5064/udp
