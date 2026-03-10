@@ -354,13 +354,14 @@ function compile_gensub {
     compile_file "$module" "$version" "$fname"
 };
 
-function compile_sncseq {
-    module="sncseq"
-    version="$1"
-    fname="seq-$version.tar.gz"
-    
-    compile_file "$module" "$version" "$fname"
-};
+#No longer needed with new url
+#function compile_sncseq {
+#    module="sncseq"
+#    version="$1"
+#    fname="seq-$version.tar.gz"
+#    
+#    compile_file "$module" "$version" "$fname"
+#};
 
 function compile_csm {
     local module version fname
