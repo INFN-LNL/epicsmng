@@ -122,6 +122,7 @@ build:
 * s7nodave
 * sncseq
 * sscan
+* std
 * streamdevice  -> NOTE: only versions 2.8+ are supported
 
 And many more can be added by the user, see Settings!
@@ -158,9 +159,3 @@ git diff <modified_files> > mypatch.patch
 ```
 
 replacing ```<modified_files>``` with the list of files you modified for this patch.
-
-
-### Known problem(s)
-
-For calc module:
-"epicsmng listmodules" -> R5-4-2 doesn't exist (yet), but the R3-7-5 works properly
