@@ -122,6 +122,7 @@ build:
 * s7nodave
 * sncseq
 * sscan
+* std
 * streamdevice  -> NOTE: only versions 2.8+ are supported
 
 And many more can be added by the user, see Settings!
