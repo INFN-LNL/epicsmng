@@ -125,4 +125,17 @@ std_url="https://github.com/epics-modules/std.git"
 std_requires="base sncseq asyn"
 std_optionals=""
 std_dbd="std.dbd"
-std_libs="std seq pv" 
+std_libs="std seq pv"
+
+slacsnmp_url="https://github.com/slac-epics/snmp.git"
+slacsnmp_requires="base"
+slacsnmp_optionals=""
+slacsnmp_dbd="snmp.dbd"
+slacsnmp_libs=""
+
+visa_url+="https://github.com/ISISComputingGroup/EPICS-VISA.git"
+visa_requires+="base asyn streamdevice calc sscan"
+visa_optionas+=
+visa_dbd+="VISAdrv.dbd"
+visa_libs+="VISAdrv"
+
