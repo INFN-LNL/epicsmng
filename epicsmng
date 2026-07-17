@@ -62,7 +62,13 @@ function prepare_git_src {
     #create folder with same name as module if not already present
     if [ ! -d "$module" ]; then
         echo "Cloning from repo $remote"
-        if ! git clone "$remote" "$module"; then
+        recurse_var="${module}_recurse"
+        if [[ "${!recurse_var,,}" == "true" ]]; then
+            cmd="git clone --recurse-submodules $remote $module"
+        else
+            cmd="git clone $remote $module"
+        fi
+        if ! $cmd; then
             echo "ERROR: Git clone failed."
             return 1
         fi
@@ -354,13 +360,14 @@ function compile_gensub {
     compile_file "$module" "$version" "$fname"
 };
 
-function compile_sncseq {
-    module="sncseq"
-    version="$1"
-    fname="seq-$version.tar.gz"
-    
-    compile_file "$module" "$version" "$fname"
-};
+#No longer needed with new url
+#function compile_sncseq {
+#    module="sncseq"
+#    version="$1"
+#    fname="seq-$version.tar.gz"
+#    
+#    compile_file "$module" "$version" "$fname"
+#};
 
 function compile_csm {
     local module version fname
