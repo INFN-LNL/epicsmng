@@ -62,7 +62,13 @@ function prepare_git_src {
     #create folder with same name as module if not already present
     if [ ! -d "$module" ]; then
         echo "Cloning from repo $remote"
-        if ! git clone --recurse-submodules "$remote" "$module"; then
+        recurse_var="${module}_recurse"
+        if [[ "${!recurse_var,,}" == "true" ]]; then
+            cmd="git clone --recurse-submodules $remote $module"
+        else
+            cmd="git clone $remote $module"
+        fi
+        if ! $cmd; then
             echo "ERROR: Git clone failed."
             return 1
         fi
