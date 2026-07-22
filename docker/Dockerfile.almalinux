@@ -1,6 +1,6 @@
 ARG OS_VERSION=10
 
-FROM almalinux:${OS_VERSION}-minimal AS install-epicsmng
+FROM almalinux:${OS_VERSION} AS install-epicsmng
 
 ARG HOME=/root
 ENV HOME=${HOME}
@@ -12,7 +12,7 @@ COPY ./epicsmng ./install.sh /epicsmng/
 
 # Install required packets to build epics base and asyn
 # Install, clean source files and set the github mirror of the base to be used (faster)
-RUN microdnf --enablerepo=crb -y install \
+RUN dnf --enablerepo=crb -y install \
         git \
         make \
         gcc \
@@ -23,7 +23,7 @@ RUN microdnf --enablerepo=crb -y install \
         readline-devel \
         rpcgen \
         libtirpc-devel \
-    && microdnf clean all \
+    && dnf clean all \
     && rm -rf /var/cache/dnf \
     && bash /epicsmng/install.sh \
     && rm -rf /epicsmng \
