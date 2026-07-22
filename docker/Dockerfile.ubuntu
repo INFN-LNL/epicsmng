@@ -1,6 +1,6 @@
 ARG OS_VERSION=20.04
 
-FROM ubuntu:20.04
+FROM ubuntu:${OS_VERSION} AS install-epicsmng
 
 # Add the epicsmng executable location to PATH
 ARG HOME=/root
