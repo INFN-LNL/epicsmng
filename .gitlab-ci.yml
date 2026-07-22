@@ -78,7 +78,7 @@ shellcheck:
     - shellcheck ./utils/epicsmng-completion.bash
     - shellcheck ./utils/completion_include.bash
 
-# TEst installation of the epicsmng modules
+# Test installation of the epicsmng modules
 install-configuration:
   image: "$CI_REGISTRY_IMAGE:$OS-$CI_COMMIT_REF_SLUG"
   stage: test
@@ -88,22 +88,24 @@ install-configuration:
     - epicsmng makemodules epicsmng.conf
   <<: *docker_image_matrix
 
-# tag-version:
-#   stage: release
-#   image: docker:latest
-#   services:
-#     - docker:dind
-#   before_script:
-#     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-#   variables:
-#     CURR_TAG: $CI_REGISTRY_IMAGE/ioc-$ITEM:$OS-$CI_COMMIT_REF_SLUG
-#     NEW_TAG: $CI_REGISTRY_IMAGE/ioc-$ITEM:$CI_COMMIT_REF_SLUG
-#   script:
-#     - docker pull $CURR_TAG
-#     - docker tag $CURR_TAG $NEW_TAG
-#     - docker push $NEW_TAG
-#   needs:
-#     - build
-#   rules:
-#     - if: $CI_COMMIT_REF_NAME =~ /^v\d+.\d+.\d+$/
-#   <<: *release_matrix
+# Create image tag for tagged version (vx.x.x). Use almalinux10 as base OS.
+tag-version:
+  stage: release
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  variables:
+    OS: almalinux
+    OS_VERSION: 10
+    CURR_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$OS$OS_VERSION
+    NEW_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  script:
+    - docker pull $CURR_TAG
+    - docker tag $CURR_TAG $NEW_TAG
+    - docker push $NEW_TAG
+  needs:
+    - build
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^v\d+.\d+.\d+$/
